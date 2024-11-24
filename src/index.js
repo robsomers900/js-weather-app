@@ -61,12 +61,64 @@ import "./styles.css"
 const locationForm = document.querySelector("#locationForm")
 const location = document.querySelector("#location")
 const range = document.querySelector("#range")
-locationForm.addEventListener("submit", (event) => {
+const content = document.querySelector(".content-container")
+locationForm.addEventListener("submit", async (event) => {
     event.preventDefault()
     const locationValue = location.value 
     const rangeValue = range.value
     console.log(locationValue)
     console.log(rangeValue)
-    getWeatherData(rangeValue, locationValue)
+    const data = await getWeatherData(rangeValue, locationValue)
+    console.log(data)
+    data.forEach(day => {
+        const newCard = document.createElement('div')
+        newCard.classList.add("card")
+        newCard.innerHTML = `
+        <div>
+            Date: ${day.datetime}
+        </div>
+        <br>
+        <div>
+            Description: ${day.description}
+        </div>
+        <div>
+            Feels like temp: ${day.feelslike}
+        </div>
+        <div>
+            Precipitation: ${day.precip}
+        </div>
+        <div>
+            Precipitation probability: ${day.precipprob}
+        </div>
+        <div>
+            Min: ${day.tempmin}
+        </div>
+        <div>
+            Max: ${day.tempmax}
+        </div>
+        `
+        content.appendChild(newCard)
+    })
 })
 
+// locationForm.addEventListener("submit", async (event) => {
+//     event.preventDefault();
+//     const locationValue = location.value;
+//     const rangeValue = range.value;
+//     console.log(locationValue);
+//     console.log(rangeValue);
+
+//     try {
+//         const data = await getWeatherData(rangeValue, locationValue); // Wait for the Promise to resolve
+//         data.forEach(day => {
+//             const newCard = document.createElement('div');
+//             newCard.innerHTML = `
+//             <div>
+//                 Date: ${day.datetime}
+//             </div>`;
+//             content.appendChild(newCard);
+//         });
+//     } catch (error) {
+//         console.error("Error fetching or processing weather data:", error);
+//     }
+// });
