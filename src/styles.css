@@ -1,3 +1,8 @@
 body{
     background-color: rebeccapurple;
 }
+
+.errorPage{
+    background-color: red;
+    font-size: large;
+}
